@@ -8,6 +8,10 @@ description: Use when writing, editing, reviewing, or setting up automated tests
 You are writing test automation. These rules are mandatory. Follow the checklist
 in order and DO NOT report a task complete until the self-review gate passes.
 
+> **New to automation (human reader)?** Start with `references/onboarding.md`, then
+> `references/manual-to-auto.md`. When Claude writes a test for you, grade it with
+> `references/reviewing-ai-tests.md` before accepting it.
+
 ## Mandatory checklist (create a TodoWrite item per step)
 
 1. **Scope** — identify test type (web / API / mobile / visual / a11y / perf) and
@@ -52,6 +56,9 @@ Invoke them at the moments below (if installed — if not, apply the principle a
 
 | Working on...                  | Read |
 |--------------------------------|------|
+| Learning automation from scratch (human on-ramp) | `references/onboarding.md` |
+| Translating a manual test case into automation | `references/manual-to-auto.md` |
+| Judging whether a generated test is any good | `references/reviewing-ai-tests.md` |
 | Framework structure, locators, config, fixtures, network mocking | `references/code-structure.md` |
 | What/how to assert, case design, negative tests, data | `references/test-design.md` |
 | Reports, evidence, flaky tracking, traceability | `references/reporting.md` |
