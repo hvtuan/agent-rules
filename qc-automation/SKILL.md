@@ -12,10 +12,17 @@ in order and DO NOT report a task complete until the self-review gate passes.
 
 1. **Scope** — identify test type (web / API / mobile / visual / a11y / perf) and
    tier (`@smoke` / `@regression`), and map a test-ID to the requirement under test.
-2. **Code** — follow `references/code-structure.md`.
+2. **Code** — follow `references/code-structure.md`. When building framework code,
+   fixtures, page objects, or helpers, write the failing test first: use
+   `superpowers:test-driven-development` (RED → GREEN → REFACTOR).
 3. **Case design** — follow `references/test-design.md` (negative cases are required, not optional).
 4. **Reporting** — ensure trace/screenshot/video-on-fail are enabled; follow `references/reporting.md`.
-5. **Self-review gate (run before reporting done).**
+5. **Self-review gate (run before reporting done)** — this gate IS the QC instance of
+   `superpowers:verification-before-completion`: do not claim done until every box passes.
+
+When a test is flaky or fails for a reason you can't immediately explain, STOP guessing
+and use `superpowers:systematic-debugging` to find the root cause — never paper over it
+with a retry or a wait (see `references/reporting.md` flaky policy).
 
 ## Self-review gate — answer every question; any "no/yes-bad" → go back and fix
 
@@ -28,6 +35,18 @@ in order and DO NOT report a task complete until the self-review gate passes.
 - [ ] No hardcoded secrets; selectors follow priority (role → label → placeholder → text → testid → CSS; no XPath)?
 
 If any box is unchecked, you have NOT finished. Fix and re-run the gate.
+
+## Composes with superpowers
+
+These rules are the QC-specific layer; the superpowers skills supply the discipline.
+Invoke them at the moments below (if installed — if not, apply the principle anyway).
+
+| Moment | Skill |
+|--------|-------|
+| Building framework code, fixtures, page objects, helpers, or a new test from a requirement | `superpowers:test-driven-development` |
+| A test is flaky or fails for an unclear reason | `superpowers:systematic-debugging` |
+| Running the self-review gate before reporting done | `superpowers:verification-before-completion` |
+| A meaningful slice of tests is finished | `superpowers:requesting-code-review` (then `superpowers:receiving-code-review` to act on feedback) |
 
 ## Routing — read only what you need
 
