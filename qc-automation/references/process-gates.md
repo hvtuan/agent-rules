@@ -15,9 +15,12 @@ How tests get reviewed, merged, and run in CI: PR checklist, DoD, commits, CI or
 - [ ] Test-ID mapped to a requirement; tagged `@smoke`/`@regression`.
 - [ ] No hardcoded secrets; selectors follow priority, no XPath.
 
+> Request review with `superpowers:requesting-code-review` once a slice of tests is done;
+> act on the feedback with `superpowers:receiving-code-review`.
+
 ## Definition of Done (one test)
 
-**Principle:** A test is "done" only when it: passes 3 consecutive local runs, captures evidence on failure, carries a tag + test-ID, and uses no hard waits.
+**Principle:** A test is "done" only when it: passes 3 consecutive local runs, captures evidence on failure, carries a tag + test-ID, and uses no hard waits. Confirming "done" is an instance of `superpowers:verification-before-completion` — verify, don't assume.
 **Why:** One green run can be luck; 3 consecutive runs is the minimum bar against flakiness.
 
 ```bash
@@ -26,7 +29,7 @@ npx playwright test path/to/spec.ts --repeat-each=3 --workers=1
 
 ## Commit convention & flaky policy
 
-**Principle:** Use Conventional Commits (`test:`, `fix:`, `docs:`). A test that flakes is quarantined within one working day — tagged `@quarantine`, removed from the gating lane, and ticketed; fixed or deleted, never left retrying.
+**Principle:** Use Conventional Commits (`test:`, `fix:`, `docs:`). A test that flakes is quarantined within one working day — tagged `@quarantine`, removed from the gating lane, and ticketed; fixed or deleted, never left retrying. Fix it by finding the root cause with `superpowers:systematic-debugging`, not by adding retries.
 **Why:** Readable history and a hard quarantine SLA prevent "false green" CI.
 
 ```bash

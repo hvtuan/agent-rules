@@ -2,6 +2,10 @@
 
 How to choose and shape what a test verifies: scope, structure, assertions, negative cases, data.
 
+> Write the test from the requirement first and watch it fail before the feature/helper makes
+> it pass — this is `superpowers:test-driven-development` applied to QC. A test that has never
+> failed proves nothing.
+
 ## Test behavior, not implementation
 
 **Principle:** Assert user-visible behavior and outcomes, not internal state, private methods, or DOM structure.

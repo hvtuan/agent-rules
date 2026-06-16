@@ -46,7 +46,7 @@ if (!res.ok()) attach(JSON.stringify({ req: body, status: res.status(), res: awa
 
 ## Flaky tracking: mark + quarantine
 
-**Principle:** Track flaky tests explicitly. Mark them, move them to a quarantine lane that does not gate the build, and fix or delete them. Never let a flaky test silently retry into green.
+**Principle:** Track flaky tests explicitly. Mark them, move them to a quarantine lane that does not gate the build, and fix or delete them. Never let a flaky test silently retry into green. To fix one, find the root cause with `superpowers:systematic-debugging` — a retry that passes is not a fix.
 **Why:** A retried flake that passes hides a real intermittent defect and erodes trust in CI ("false green").
 
 ```ts
