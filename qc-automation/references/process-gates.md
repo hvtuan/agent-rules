@@ -50,7 +50,11 @@ jobs:
       - run: npx playwright test --shard=${{ matrix.shard }}/4
       - uses: actions/upload-artifact@v4
         if: always()
-        with: { name: report-${{ matrix.shard }}, path: [playwright-report/, test-results/] }
+        with:
+          name: report-${{ matrix.shard }}
+          path: |
+            playwright-report/
+            test-results/
 ```
 
 ## Randomization & per-test timeout
