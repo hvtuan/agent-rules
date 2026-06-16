@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+echo "[qc pre-commit] eslint + typecheck + changed tests"
+npx eslint . --max-warnings=0
+npx tsc --noEmit
+CHANGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.spec\.ts$' || true)
+if [ -n "$CHANGED" ]; then npx playwright test $CHANGED; fi
