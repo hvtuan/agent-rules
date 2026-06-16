@@ -154,7 +154,21 @@ Copy vào repo test thật để enforce bằng máy:
 
 **`examples/`** — mini test repo TS chạy được (`npm test` pass): 1 web spec (POM + web-first assert + network mock), 1 API spec (schema validation + negative case), 1 visual, 1 a11y test. Tài liệu sống + tham chiếu cho Claude.
 
-**`README.md`** — index: các bộ rule, cách cài (`install.sh`), convention thêm folder mới, link CHANGELOG.
+**`README.md`** — phải là hướng dẫn **chi tiết từng bước, copy-paste-chạy được**, không chỉ index sơ lược. Cấu trúc bắt buộc:
+
+1. **Giới thiệu** — repo là gì, `agent-rules` chứa những bộ rule nào (bảng: folder ↔ mục đích ↔ trạng thái).
+2. **Yêu cầu trước khi cài (Prerequisites)** — phiên bản Node, Claude Code, git; lệnh kiểm tra (`node -v`, v.v.).
+3. **Cài đặt — từng bước có lệnh cụ thể** cho cả 3 mode, mỗi mode 1 mục riêng:
+   - **Global (máy cá nhân):** clone repo → `cd` → `chmod +x install.sh` → `./install.sh --global` → cách verify (kiểm tra symlink `~/.claude/skills/qc-automation/`, mở Claude Code thử trigger).
+   - **Per-project (team):** `./install.sh --project <path-repo-test>` → giải thích nó tạo gì (`.claude/skills/...` + dòng pointer trong `CLAUDE.md`) → commit vào repo test → đồng đội pull về là có.
+   - **Starter-pack (Phase 2 enforce):** `./install.sh --starter <path-repo-test>` → liệt kê file được copy (eslint/playwright/hooks/ci/tsconfig) → các bước bật: `npm install` devDeps, kích hoạt husky, thêm script `package.json`, bật workflow CI.
+4. **Cách dùng sau khi cài** — ví dụ prompt thật để trigger skill ("viết Playwright test cho luồng login..."), mô tả Claude sẽ tạo TodoWrite từ checklist & chạy self-review gate.
+5. **Cập nhật / re-sync** — `git pull` rồi chạy lại `install.sh` đúng mode; giải thích global (symlink) tự cập nhật vs project (copy) phải re-sync.
+6. **Gỡ cài (Uninstall)** — lệnh xoá symlink/folder cho từng mode.
+7. **Troubleshooting** — skill không trigger, lỗi permission `install.sh`, conflict `CLAUDE.md`, lint fail sau starter-pack.
+8. **Đóng góp / thêm folder rule mới** — convention (mỗi folder 1 `SKILL.md`, tên skill = tên folder), link CHANGELOG.
+
+Mỗi bước có **code block lệnh cụ thể** + mô tả kết quả mong đợi; ưu tiên người mới copy-paste là chạy được, không phải đoán.
 
 ## 9. Nguồn tham khảo
 - Playwright official best practices (test user-visible behavior, web-first assertion, network interception, `no-floating-promises`, sharding, trace-on-retry).
