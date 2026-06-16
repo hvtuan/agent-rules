@@ -3,6 +3,13 @@
 All notable changes to `agent-rules` are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.4] - 2026-06-16
+
+### Added
+- `learn/quickstart.html` + rendered `learn/quickstart.pdf` — a one-page, printable
+  Vietnamese cheat-sheet for a beginner: the 4 commands, the shape of a test, the
+  "watch it fail first" habit, the grading checklist, and a mini glossary.
+
 ## [0.1.3] - 2026-06-16
 
 ### Changed
