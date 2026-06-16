@@ -29,5 +29,12 @@ TREPO="$TMP/trepo"; mkdir -p "$TREPO"
 "$ROOT/install.sh" --starter "$TREPO" >/dev/null 2>&1
 check "starter: eslint config copied" "[ -f '$TREPO/eslint/eslint.config.js' ]"
 
+# starter must NOT clobber an existing file without --force, and MUST with --force
+echo "KEEP_ME" > "$TREPO/eslint/eslint.config.js"
+"$ROOT/install.sh" --starter "$TREPO" >/dev/null 2>&1
+check "starter: no-clobber without --force" "grep -q KEEP_ME '$TREPO/eslint/eslint.config.js'"
+"$ROOT/install.sh" --starter "$TREPO" --force >/dev/null 2>&1
+check "starter: --force overwrites" "! grep -q KEEP_ME '$TREPO/eslint/eslint.config.js'"
+
 echo "----"; echo "PASS=$PASS FAIL=$FAIL"
 [ "$FAIL" -eq 0 ]

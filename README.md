@@ -92,11 +92,14 @@ Expected: creates `your-test-repo/.claude/skills/qc-automation/` and adds the po
 ./install.sh --starter /path/to/your-test-repo
 cd /path/to/your-test-repo
 npm i -D eslint typescript-eslint eslint-plugin-playwright husky lint-staged
-mv eslint/eslint.config.js ./eslint.config.js   # ESLint auto-discovers it at repo root
+# Move the three configs to the repo ROOT so eslint / tsc / playwright actually find them:
+mv eslint/eslint.config.js playwright/playwright.config.ts tsconfig/tsconfig.json ./
 bash git-hooks/setup.sh
 mkdir -p .github/workflows && mv ci/qc.yml .github/workflows/qc.yml
 ```
-Expected: copies `eslint/`, `playwright/`, `git-hooks/`, `ci/`, `tsconfig/` into the repo; the ESLint **flat config** (`eslint.config.js`, ESLint 9 + typescript-eslint 8 + eslint-plugin-playwright 2) sits at the repo root; husky pre-commit installed; CI workflow enabled at `.github/workflows/qc.yml`. For k6 perf, also `npm i -D @types/k6` and use k6 ≥ v0.57 (see `qc-automation/references/performance.md`).
+Expected: copies `eslint/`, `playwright/`, `git-hooks/`, `ci/`, `tsconfig/` into the repo. **Move all three configs (`eslint.config.js`, `playwright.config.ts`, `tsconfig.json`) to the repo root** — left in their subfolders, `npx tsc`/`eslint`/`playwright` won't find them and will silently do nothing. Adjust each config's paths (`tsconfig` `include`, `playwright` `testDir`) to your repo's layout. Then husky pre-commit is installed and CI is enabled at `.github/workflows/qc.yml`.
+
+Notes: the CI uses `npm ci`, which needs a committed `package-lock.json` (run `npm install` once and commit it). For k6 perf, also `npm i -D @types/k6` and use k6 ≥ v0.57 (see `qc-automation/references/performance.md`).
 
 ## 5. Usage after install
 

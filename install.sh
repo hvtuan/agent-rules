@@ -46,13 +46,25 @@ install_project() {
 install_starter() {
   local path="${1:-}"; [ -n "$path" ] || usage
   local force="${2:-}"
+  local src="$SKILL_SRC/starter-pack"
   mkdir -p "$path"
-  local copy_args=(-R)
-  [ "$force" = "--force" ] || copy_args+=(-n)
-  cp "${copy_args[@]}" "$SKILL_SRC/starter-pack/." "$path/" 2>/dev/null || \
-    cp -R "$SKILL_SRC/starter-pack/." "$path/"
-  echo "Copied starter-pack into $path"
-  echo "Next: npm i -D eslint eslint-plugin-playwright @typescript-eslint/eslint-plugin husky lint-staged ; npx husky init ; enable ci/qc.yml"
+  # Copy file-by-file so existing files are never clobbered unless --force is given.
+  local skipped=0
+  while IFS= read -r f; do
+    local rel="${f#"$src/"}"
+    local dst="$path/$rel"
+    if [ -e "$dst" ] && [ "$force" != "--force" ]; then
+      echo "skip (exists): $rel"; skipped=$((skipped + 1)); continue
+    fi
+    mkdir -p "$(dirname "$dst")"
+    cp "$f" "$dst"
+  done < <(find "$src" -type f)
+  echo "Copied starter-pack into $path${skipped:+ ($skipped existing file(s) skipped — re-run with --force to overwrite)}"
+  echo "Next steps:"
+  echo "  npm i -D eslint typescript-eslint eslint-plugin-playwright husky lint-staged"
+  echo "  mv eslint/eslint.config.js playwright/playwright.config.ts tsconfig/tsconfig.json ./   # configs at repo root"
+  echo "  bash git-hooks/setup.sh"
+  echo "  mkdir -p .github/workflows && mv ci/qc.yml .github/workflows/qc.yml"
 }
 
 case "${1:-}" in

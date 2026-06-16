@@ -41,6 +41,8 @@ module.exports = [
       'playwright/no-element-handle': 'error',
       'playwright/valid-expect': 'error',
       'playwright/no-focused-test': 'error',
+      // 'warn' not 'error': an intentional test.skip(cond, 'reason') is allowed
+      // (see reporting.md). Run eslint WITHOUT --max-warnings=0 so it informs, not blocks.
       'playwright/no-skipped-test': 'warn',
     },
   },
