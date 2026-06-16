@@ -8,6 +8,56 @@ Shared, versioned **agent rule sets** for Claude Code. One folder per purpose.
 |--------|---------|--------|
 | `qc-automation` | Rules Claude follows when writing TS test automation (Playwright/API/mobile/visual/a11y/k6) | Active |
 
+## What's inside
+
+**Top level of the repo:**
+
+| Path | What it is |
+|------|-----------|
+| `qc-automation/` | The QC automation rule set — the skill and everything it ships. |
+| `install.sh` | Installer: `--global`, `--project <path>`, `--starter <path>`. |
+| `docs/superpowers/` | The design spec and implementation plan (how this was built). |
+| `CHANGELOG.md` | Version history. |
+
+**Inside `qc-automation/`:**
+
+| Path | Audience | What it's for |
+|------|----------|---------------|
+| `SKILL.md` | Claude | Entry point Claude loads when you ask for a test: trigger, mandatory checklist, self-review gate, routing, red-flags. |
+| `references/` | Claude (rules) | The technical rules Claude must follow when writing tests. |
+| `learn/` | You (human) | The learning path for moving from manual to automated testing. |
+| `examples/` | Both | A small, **runnable** Playwright project that proves the rules (real passing tests). |
+| `starter-pack/` | Your test repo | Configs you copy into a real test repo to enforce the rules by machine. |
+
+**`qc-automation/references/` — the rules (Claude follows these):**
+
+| File | Covers |
+|------|--------|
+| `code-structure.md` | Page objects, locator priority, no hard-waits, network mocking, auth reuse, config/secrets, API schema validation. |
+| `test-design.md` | What/how to assert, atomic & independent tests, AAA, mandatory negative cases, data-driven, smoke/regression tiers. |
+| `reporting.md` | HTML/Allure reports, on-fail evidence (trace/screenshot/video), flaky tracking, traceability matrix. |
+| `process-gates.md` | PR checklist, Definition-of-Done, commit convention, CI gating order, test randomization, naming. |
+| `visual-a11y.md` | Visual regression (stable screenshots, baselines) and accessibility (axe, severity gate, keyboard/ARIA). |
+| `performance.md` | k6 performance: the 5 test types, thresholds as pass/fail, CI vs dedicated runs, realistic data. |
+
+**`qc-automation/learn/` — the on-ramp (for a human learning automation):**
+
+| File | What it helps you do | Read it when |
+|------|----------------------|--------------|
+| `onboarding.md` | Understand automation, run a test, read the trace, the "watch it fail first" habit, EN/VN glossary. | Start here, day one. |
+| `manual-to-auto.md` | Translate your manual test cases into automated ones (with a worked example). | When you have a manual case to automate. |
+| `reviewing-ai-tests.md` | Grade a test Claude wrote using your QC judgment; spot "fake green" tests. | Before accepting any test Claude writes. |
+
+**`qc-automation/starter-pack/` — machine enforcement (copy into a real test repo via `install.sh --starter`):**
+
+| Path | What it is |
+|------|-----------|
+| `eslint/eslint.config.js` | ESLint 9 flat config: bans hard-waits, XPath, floating promises, focused/skipped tests. |
+| `playwright/playwright.config.ts` | Standard Playwright config: retries, trace/screenshot/video on fail, multi-browser, sharding-ready. |
+| `tsconfig/tsconfig.json` | Strict TypeScript base config. |
+| `git-hooks/` | `pre-commit` (lint + typecheck + changed tests) and `setup.sh` (installs the husky hook). |
+| `ci/qc.yml` | GitHub Actions: lint → typecheck → sharded tests → upload report; plus a separate non-blocking smoke-perf job. |
+
 ## 1. Prerequisites
 
 ```bash
