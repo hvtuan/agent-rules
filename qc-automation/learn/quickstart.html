@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<title>QC Automation — Quickstart</title>
+<style>
+  @page { size: A4; margin: 11mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1f2933; margin: 0; font-size: 10px; line-height: 1.4;
+  }
+  .sheet { width: 188mm; margin: 0 auto; }
+  header { text-align: center; border-bottom: 2.5px solid #e8927c; padding-bottom: 6px; margin-bottom: 9px; }
+  header h1 { margin: 0; font-size: 19px; color: #b5503a; letter-spacing: .2px; }
+  header p { margin: 3px 0 0; color: #5c6670; font-size: 10px; }
+  .cols { column-count: 2; column-gap: 9mm; }
+  section { break-inside: avoid; margin: 0 0 8px; }
+  h2 { font-size: 10.5px; margin: 0 0 4px; color: #b5503a; text-transform: uppercase; letter-spacing: .4px; }
+  h2 .n { display: inline-block; width: 15px; height: 15px; line-height: 15px; text-align: center;
+    background: #e8927c; color: #fff; border-radius: 50%; font-size: 9px; margin-right: 5px; }
+  p { margin: 0 0 4px; }
+  ul, ol { margin: 0 0 4px; padding-left: 16px; }
+  li { margin: 0 0 2px; }
+  code, pre { font-family: "SF Mono", "Cascadia Code", Consolas, monospace; }
+  pre { background: #f5f1ee; border-left: 3px solid #e8927c; border-radius: 3px;
+    padding: 5px 7px; margin: 0 0 4px; font-size: 8.6px; line-height: 1.45; white-space: pre-wrap; }
+  code { background: #f5f1ee; padding: 0 3px; border-radius: 3px; font-size: 8.8px; }
+  .cmt { color: #8a949e; }
+  .golden { background: #fff6e9; border: 1.5px solid #f0c47a; border-radius: 6px; padding: 7px 9px; }
+  .golden h2 { color: #c2872b; }
+  .grade li { font-size: 9.4px; }
+  table.gl { width: 100%; border-collapse: collapse; font-size: 9px; }
+  table.gl td { padding: 1.5px 4px; vertical-align: top; border-bottom: 1px solid #efe7e2; }
+  table.gl td:first-child { color: #b5503a; font-weight: 600; white-space: nowrap; }
+  footer { text-align: center; margin-top: 6px; padding-top: 6px; border-top: 1px solid #efe7e2;
+    color: #8a949e; font-size: 9px; font-style: italic; }
+  .tag { color: #1a7f5a; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <h1>QC Automation · Quickstart 🌱</h1>
+    <p>Bạn là <b>đạo diễn &amp; giám khảo</b> — Claude gõ code. Tư duy QC của bạn là thế mạnh AI không thay được.</p>
+  </header>
+
+  <div class="cols">
+
+    <section>
+      <h2><span class="n">1</span>4 lệnh cần nhớ</h2>
+      <pre>npm test                <span class="cmt"># chạy tất cả</span>
+npx playwright test --ui  <span class="cmt"># XEM chạy từng bước ★</span>
+npx playwright show-report <span class="cmt"># bảng pass/fail</span>
+npx playwright show-trace <span class="cmt"># "ghi hình" khi đỏ</span></pre>
+      <p>★ Người mới luôn bắt đầu bằng <code>--ui</code> — thấy test chạy như xem video.</p>
+    </section>
+
+    <section>
+      <h2><span class="n">2</span>Một test trông như thế nào</h2>
+      <pre>test('user đăng nhập được', async ({ page }) =&gt; {
+  await page.goto('/login');           <span class="cmt">// tới trang</span>
+  await page.getByLabel('Email').fill('a@x.dev');
+  await page.getByRole('button',{name:'Sign in'}).click();
+  await expect(page.getByText('Welcome'))
+        .toBeVisible();                <span class="cmt">// kết quả mong đợi</span>
+});</pre>
+      <p>Đọc như một câu: <i>tới login → nhập → bấm → "Welcome" phải hiện.</i> Đúng 3 phần như test case thủ công: <b>chuẩn bị → thao tác → kiểm tra</b>.</p>
+    </section>
+
+    <section class="golden">
+      <h2>★ Thói quen vàng</h2>
+      <p><b>Luôn XEM TEST FAIL trước khi tin nó.</b></p>
+      <ol>
+        <li>Chạy → xanh ✅</li>
+        <li>Cố tình sửa cho sai → chạy lại → phải đỏ ❌</li>
+        <li>Sửa lại → xanh ✅</li>
+      </ol>
+      <p>Test <i>không thể đỏ</i> = không kiểm gì cả.</p>
+    </section>
+
+    <section>
+      <h2><span class="n">3</span>Vòng lặp mỗi ngày với Claude</h2>
+      <ol>
+        <li>Xin <b>1 test nhỏ</b>, bắt đầu luồng quan trọng nhất.</li>
+        <li><b>Đọc</b> test. Khó hiểu → "giải thích dòng X".</li>
+        <li>"<b>Làm test này fail</b> để chứng minh nó kiểm thật."</li>
+        <li>Thêm case lỗi (thế mạnh của bạn).</li>
+        <li><b>Chấm</b> rồi mới nhận.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2><span class="n">4</span>Chấm test Claude viết</h2>
+      <ul class="grade">
+        <li>Có test đúng cái mình muốn?</li>
+        <li>Có bắt được bug thật? (làm nó đỏ thử)</li>
+        <li>Kiểm <i>điều người dùng thấy</i>, không phải chi tiết bên trong?</li>
+        <li>Có case lỗi / biên chưa?</li>
+        <li>Không có <code>waitForTimeout</code>, chạy độc lập?</li>
+        <li>Tên rõ, hiểu được sau 6 tháng?</li>
+      </ul>
+      <p>Nghi "xanh giả": assert quá yếu, mock hết, <code>try/catch</code> nuốt lỗi, không có <code>expect</code>.</p>
+    </section>
+
+    <section>
+      <h2><span class="n">5</span>Từ điển nhanh</h2>
+      <table class="gl">
+        <tr><td>locator</td><td>cách "chỉ" vào nút / ô nhập</td></tr>
+        <tr><td>assertion</td><td><code>expect</code> — khẳng định kết quả</td></tr>
+        <tr><td>fixture</td><td>thứ chuẩn bị sẵn (đăng nhập, data)</td></tr>
+        <tr><td>flaky</td><td>lúc xanh lúc đỏ — phải sửa, không bỏ qua</td></tr>
+        <tr><td>trace</td><td>bản ghi hình từng bước để xem khi đỏ</td></tr>
+        <tr><td>smoke</td><td><span class="tag">@smoke</span> nhóm test nhanh-quan-trọng</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2><span class="n">6</span>Đọc thêm</h2>
+      <ul>
+        <li><code>learn/onboarding.md</code> — bắt đầu từ đây</li>
+        <li><code>learn/manual-to-auto.md</code> — dịch test case cũ</li>
+        <li><code>learn/reviewing-ai-tests.md</code> — chấm test</li>
+        <li>playwright.dev · Test Automation University</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer>Mỗi ngày một test nhỏ. Bạn bắt đầu với một lợi thế thật, không phải con số 0. 💛</footer>
+</div>
+</body>
+</html>

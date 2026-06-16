@@ -47,6 +47,7 @@ Shared, versioned **agent rule sets** for Claude Code. One folder per purpose.
 | `onboarding.md` | Understand automation, run a test, read the trace, the "watch it fail first" habit, EN/VN glossary. | Start here, day one. |
 | `manual-to-auto.md` | Translate your manual test cases into automated ones (with a worked example). | When you have a manual case to automate. |
 | `reviewing-ai-tests.md` | Grade a test Claude wrote using your QC judgment; spot "fake green" tests. | Before accepting any test Claude writes. |
+| `quickstart.html` / `quickstart.pdf` | One-page **printable** cheat-sheet (Vietnamese): the 4 commands, the test shape, the "fail-first" habit, the grading checklist, a mini glossary. | Print it and keep it on your desk. |
 
 **`qc-automation/starter-pack/` — machine enforcement (copy into a real test repo via `install.sh --starter`):**
 
