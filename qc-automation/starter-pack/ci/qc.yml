@@ -33,4 +33,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: grafana/setup-k6-action@v1
-      - run: k6 run perf/smoke.js
+      # k6 v0.57+ runs TypeScript natively; older k6 needs bundling (see performance.md).
+      - run: k6 run perf/checkout.smoke.ts

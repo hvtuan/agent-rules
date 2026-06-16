@@ -27,7 +27,7 @@ check "global: symlink exists" "[ -L '$HOME/.claude/skills/qc-automation' ]"
 
 TREPO="$TMP/trepo"; mkdir -p "$TREPO"
 "$ROOT/install.sh" --starter "$TREPO" >/dev/null 2>&1
-check "starter: eslintrc copied" "[ -f '$TREPO/eslint/.eslintrc.cjs' ]"
+check "starter: eslint config copied" "[ -f '$TREPO/eslint/eslint.config.js' ]"
 
 echo "----"; echo "PASS=$PASS FAIL=$FAIL"
 [ "$FAIL" -eq 0 ]
