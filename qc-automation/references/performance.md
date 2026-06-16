@@ -2,6 +2,17 @@
 
 How to write and gate k6 performance tests in TypeScript.
 
+## Running TypeScript with k6
+
+**Principle:** k6 runs on its own runtime (not Node), so a `.ts` script needs either native or bundled TS support. Use k6 **v0.57+**, which runs TypeScript directly (`k6 run script.ts`); on older k6, bundle with esbuild/webpack first. Add `@types/k6` for type-checking and `tsc --noEmit` the perf scripts in CI.
+**Why:** Calling `k6 run foo.ts` on an old k6 fails silently-confusingly; pinning the version (or bundling) makes the rule actually runnable.
+
+```bash
+npm i -D @types/k6        # types only; k6 itself is a separate binary
+k6 version                # must be >= v0.57 for native TS
+k6 run perf/checkout.smoke.ts
+```
+
 ## Five test types, each with a purpose
 
 **Principle:** Pick the type by the question you're answering. Write k6 in TS and define ramp profiles per type.

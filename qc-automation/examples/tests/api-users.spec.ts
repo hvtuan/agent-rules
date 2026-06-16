@@ -1,4 +1,8 @@
 import { test, expect } from '@playwright/test';
+import { z } from 'zod';
+
+// Contract schema — validate the response shape, not just the status code.
+const UsersSchema = z.array(z.object({ id: z.number(), name: z.string() }));
 
 // NOTE: page.route() intercepts the browser context's own fetch/XHR/navigation,
 // but does NOT intercept page.request (APIRequestContext) calls. So we mock the
@@ -24,8 +28,8 @@ test('@smoke GET /users returns a typed list', async ({ page }) => {
     return { ok: res.ok, body: await res.json() };
   });
   expect(ok).toBeTruthy();
-  expect(Array.isArray(body)).toBe(true);
-  expect(body[0]).toMatchObject({ id: expect.any(Number), name: expect.any(String) });
+  const users = UsersSchema.parse(body); // throws on contract violation
+  expect(users[0]?.name).toBe('Ada');
 });
 
 test('@regression GET /users/999 returns 404', async ({ page }) => {

@@ -78,10 +78,19 @@ await page.route('**/api.stripe.com/**', route =>
 **Why:** Re-logging in every test is slow and adds a flaky dependency on the auth UI to unrelated tests.
 
 ```ts
-// global-setup logs in and saves state to .auth/user.json
-export const test = base.extend({
-  storageState: '.auth/user.json',
+// auth.setup.ts — a "setup" project logs in once and saves the state
+import { test as setup } from '@playwright/test';
+setup('authenticate', async ({ page }) => {
+  await page.goto('/login');
+  // ...perform login...
+  await page.context().storageState({ path: '.auth/user.json' });
 });
+
+// playwright.config.ts — main project depends on setup and reuses the state
+projects: [
+  { name: 'setup', testMatch: /auth\.setup\.ts/ },
+  { name: 'chromium', dependencies: ['setup'], use: { storageState: '.auth/user.json' } },
+];
 ```
 
 ## Config & secrets via env

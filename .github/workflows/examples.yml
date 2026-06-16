@@ -1,0 +1,27 @@
+name: examples
+
+# Proves the qc-automation examples (and the shipped ESLint flat config) actually
+# run: lint + typecheck + the Playwright suite, on every push/PR.
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: qc-automation/examples
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm, cache-dependency-path: qc-automation/examples/package-lock.json }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - name: install.sh test harness
+        working-directory: .
+        run: bash test/install.test.sh
