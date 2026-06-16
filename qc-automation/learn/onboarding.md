@@ -10,6 +10,38 @@ to do the clicking and checking for you — fast, and the same way every time.
 Đọc nhanh: bạn không mất nghề — kinh nghiệm QC của bạn *chuyển thẳng* sang automation.
 Claude lo phần gõ code; bạn lo phần "test cái gì" và "test này tốt hay dở".
 
+**What you need:** Node 20+, a terminal, and a project folder. You will **not** be asked
+to write code — you read it and judge it. (Bạn không phải lập trình; bạn đọc và đánh giá.)
+
+---
+
+## 0. Get it running once (do this first)
+
+Before anything else, make some real tests run on your machine so the rest of this guide
+makes sense. This repo ships a tiny, ready-to-run example project — start there:
+
+```bash
+cd qc-automation/examples
+npm install                 # download the tools (one time)
+npx playwright install      # download the browsers (one time)
+npm test                    # run the example tests
+```
+
+Expected: `6 passed` in green. 🎉 That's real automation running on your computer.
+Now open the report and the time-travel view:
+
+```bash
+npx playwright show-report
+```
+
+If a command isn't found or something errors, see **"When nothing works"** near the end — it's
+almost always one of three small things. Once `npm test` shows green here, you understand
+"a project where tests run", and everything below will click.
+
+> First time setting up the **skill** in Claude Code (so it writes tests for you)?
+> That's in the repo's top-level `README.md` (sections 1–3). This file is about
+> learning to *read, run, and judge* tests.
+
 ---
 
 ## 1. The mental model
@@ -57,6 +89,9 @@ npx playwright test --headed   # run in a real visible browser
 
 **Start with `--ui`.** It opens a window where you can watch each step, see the page,
 and re-run with one click. For a beginner this is the single most helpful command.
+(Note: `--ui` runs the tests against whatever app they target. The `examples/` tests are
+self-contained — they mock their own pages — so you can run `--ui` there straight away.
+For real projects, the app under test usually needs to be running first.)
 
 ## 4. How to read the result (this is where you become independent)
 
@@ -115,6 +150,23 @@ better than many automation engineers.
 | **POM (Page Object)** | gom locator + thao tác 1 trang vào 1 nơi để tái dùng |
 | **CI** | hệ thống tự chạy test mỗi khi có thay đổi code |
 | **assertion vs action** | check (kiểm) vs do (làm) — `expect` là check, `click/fill` là do |
+
+## When nothing works (beginner troubleshooting)
+
+When the *tooling* breaks (not a test), it's almost always one of these:
+
+| What you see | What it means | Fix |
+|--------------|---------------|-----|
+| `command not found: npm` / `node` | Node isn't installed | Install Node 20+ from nodejs.org, reopen the terminal |
+| `Executable doesn't exist…` / browser error | Browsers not downloaded | `npx playwright install` |
+| `Cannot find module` / `no tests found` | You're not in the project folder, or didn't install | `cd` into the project, then `npm install` |
+| Test can't reach the page / `net::ERR_CONNECTION` | The app it tests isn't running | Start the app first (real projects); the `examples/` tests don't need this |
+| Visual test fails on first run | No baseline image yet | `npx playwright test --update-snapshots` once, then review the image |
+
+Rule of thumb: if the error is about `npm`, `node`, `module`, or `browser`, it's an
+**environment** problem (this list). If it's about an element, text, or assertion, it's a
+**test** problem → open the trace (§4). Telling these two apart is half the battle, and
+now you can.
 
 ## 8. Where to go next
 

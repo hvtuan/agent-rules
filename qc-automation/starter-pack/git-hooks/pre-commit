@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 echo "[qc pre-commit] eslint + typecheck + changed tests"
-npx eslint . --max-warnings=0
+# Errors block; warnings (e.g. an intentional test.skip with a reason) inform but
+# do not block — see reporting.md skip-with-reason policy.
+npx eslint .
 npx tsc --noEmit
 CHANGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.spec\.ts$' || true)
-if [ -n "$CHANGED" ]; then npx playwright test $CHANGED; fi
+if [ -n "$CHANGED" ]; then
+  # shellcheck disable=SC2086
+  echo "$CHANGED" | xargs -r npx playwright test
+fi

@@ -10,6 +10,10 @@ học lại từ đầu — bạn đang dịch kỹ năng sẵn có.
 
 ## The translation table
 
+> Some words in the right column (`fixture`, `storageState`, `@regression`, POM…) may be
+> new — **don't worry about them yet.** Claude writes that part; you just need to recognize
+> the idea. Each term is explained in the `onboarding.md` glossary.
+
 | Manual test case | Automated test | Notes |
 |------------------|----------------|-------|
 | Test case ID / title | `test('TC-101 user can log in', ...)` | Keep your IDs — put them in the test name |

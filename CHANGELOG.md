@@ -3,6 +3,33 @@
 All notable changes to `agent-rules` are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.5] - 2026-06-16
+
+### Fixed
+- **Beginner on-ramp:** `learn/onboarding.md` now has a "Section 0: get it running once"
+  pointing at the runnable `examples/` sandbox, a "When nothing works" troubleshooting
+  table, a prerequisites/expectations line, and a `--ui` caveat. `manual-to-auto.md` notes
+  beginners can ignore the jargon for now. (Previously the learn path jumped to `npm test`
+  with no way to reach a running project.)
+- **Starter-pack install flow (silent no-op):** README §4 + `install.sh` now move all three
+  configs (`eslint.config.js`, `playwright.config.ts`, `tsconfig.json`) to the repo root.
+  Left in subfolders, `tsc`/`eslint`/`playwright` found nothing and exited 0 — verified end
+  to end that the fixed flow makes `tsc` catch errors and `eslint` flag violations.
+- **`install.sh --starter` clobber bug:** rewritten to copy file-by-file; never overwrites
+  existing files without `--force`. Covered by a new clobber test (install tests now 9/9).
+- **Starter `playwright.config.ts`** now honors the rule set's own mandates: per-test
+  `timeout`, and deterministic `expect.toHaveScreenshot` (animations/caret); device projects
+  pin the viewport.
+- **Skip-policy contradiction:** dropped `--max-warnings=0` from CI + pre-commit so an
+  intentional `test.skip(cond, 'reason')` (blessed by `reporting.md`) no longer fails the build.
+- Quoted the changed-tests arg in the pre-commit hook; noted `allure-playwright` needs
+  installing; noted `npm ci` needs a committed lockfile.
+
+### Added
+- `examples/clients/user.client.ts` + `examples/tests/api-client.spec.ts` — a runnable API
+  example using the real `request` fixture + service-client + zod against a local stub
+  (the prescribed pattern; the existing example used a `page.evaluate` workaround). Suite is now 8 tests.
+
 ## [0.1.4] - 2026-06-16
 
 ### Added

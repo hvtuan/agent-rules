@@ -9,10 +9,11 @@ How test runs report results and evidence: reporters, on-fail artifacts, flaky t
 
 ```ts
 // playwright.config.ts
+// The 'allure-playwright' reporter requires a dev dependency: npm i -D allure-playwright
 export default defineConfig({
   reporter: [
     ['html', { open: 'never' }],
-    ['allure-playwright'],
+    ['allure-playwright'], // remove this line if you haven't installed allure-playwright
     ['list'],
   ],
 });
