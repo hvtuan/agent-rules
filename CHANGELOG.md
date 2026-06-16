@@ -3,13 +3,20 @@
 All notable changes to `agent-rules` are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.3] - 2026-06-16
+
+### Changed
+- Split learner docs out of `references/` into a dedicated `qc-automation/learn/` folder
+  so the human on-ramp is clearly separated from the technical rule references Claude
+  follows. SKILL.md routing + pointer updated to the `learn/` paths.
+
 ## [0.1.2] - 2026-06-16
 
 ### Added
-- Beginner on-ramp for manual testers moving to automation with Claude Code:
-  `references/onboarding.md` (mental model, running tests, reading the trace, glossary EN/VN),
-  `references/reviewing-ai-tests.md` (how to grade an AI-written test using QC judgment),
-  `references/manual-to-auto.md` (translate manual test cases into automation). Wired into SKILL.md routing + a human-reader pointer.
+- Beginner on-ramp for manual testers moving to automation with Claude Code (now under
+  `learn/`): `learn/onboarding.md` (mental model, running tests, reading the trace, glossary EN/VN),
+  `learn/reviewing-ai-tests.md` (how to grade an AI-written test using QC judgment),
+  `learn/manual-to-auto.md` (translate manual test cases into automation). Wired into SKILL.md routing + a human-reader pointer.
 
 ## [0.1.1] - 2026-06-16
 
