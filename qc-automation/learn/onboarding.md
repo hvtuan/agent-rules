@@ -118,7 +118,7 @@ better than many automation engineers.
 
 ## 8. Where to go next
 
-- The other rule files in this folder (Claude follows them; you can read them to learn).
+- The rule files in the sibling `../references/` folder (Claude follows them; you can read them to learn).
 - [Playwright docs](https://playwright.dev) — clear, with runnable examples.
 - [Test Automation University](https://testautomationu.applitools.com) — free courses,
   great for moving from manual to automation.
